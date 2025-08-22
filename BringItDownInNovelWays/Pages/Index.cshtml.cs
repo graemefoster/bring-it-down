@@ -20,10 +20,12 @@ public class IndexModel : PageModel
     {
         if (Request.Form["leak"] == "1")
         {
-            // Intentionally leak memory in a loop
+            // Controlled memory leak - allocate a limited amount to demonstrate leak without OOM kill
             var list = new List<byte[]>();
             long lastLogged = 0;
-            while (true)
+            const int maxIterations = 50; // Limit to ~500MB total allocation
+            
+            for (int iteration = 0; iteration < maxIterations; iteration++)
             {
                 // Allocate 10MB at a time
                 list.Add(new byte[10 * 1024 * 1024]);
@@ -33,8 +35,10 @@ public class IndexModel : PageModel
                     _logger.LogInformation($"[FAST LEAK] Total memory: {mem / (1024 * 1024)} MB");
                     lastLogged = mem;
                 }
-                Thread.Sleep(10); // Slow down slightly to avoid instant crash
+                Thread.Sleep(10); // Slow down slightly to avoid instant completion
             }
+            
+            _logger.LogInformation($"[FAST LEAK] Completed controlled memory allocation. Total iterations: {maxIterations}");
         }
         if (Request.Form["slowleak"] == "1")
         {
