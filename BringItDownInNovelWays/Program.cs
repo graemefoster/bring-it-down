@@ -6,17 +6,27 @@ using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
-
-builder.Services.AddAuthorization(options =>
+if (!builder.Environment.IsDevelopment())
 {
-    // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
-});
+    builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+        .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
-builder.Services.AddRazorPages()
-    .AddMicrosoftIdentityUI();
+    builder.Services.AddAuthorization(options =>
+    {
+        // By default, all incoming requests will be authorized according to the default policy.
+        options.FallbackPolicy = options.DefaultPolicy;
+    });
+}
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddRazorPages()
+        .AddMicrosoftIdentityUI();
+}
+else
+{
+    builder.Services.AddRazorPages();
+}
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -50,13 +60,15 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseAuthentication();
+    app.UseAuthorization();
+}
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 
-app.MapRazorPages()
-    .WithStaticAssets();
+app.MapRazorPages();
 
 app.MapControllers();
 
