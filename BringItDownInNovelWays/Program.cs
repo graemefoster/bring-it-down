@@ -53,10 +53,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 
-app.MapRazorPages()
-    .WithStaticAssets();
+app.MapRazorPages();
 
 app.MapControllers();
 
