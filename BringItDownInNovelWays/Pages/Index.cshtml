@@ -9,6 +9,7 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <form id="leakForm" method="post">
+    @Html.AntiForgeryToken()
     <button type="submit" name="leak" value="1" class="btn btn-danger">Crash App (Memory Leak)</button>
     <button type="submit" name="slowleak" value="1" class="btn btn-warning">Slow Memory Leak (20 min)</button>
     <button type="submit" name="cpu" value="1" class="btn btn-danger">Ramp Up CPU (20s)</button>
@@ -37,6 +38,13 @@
             if (btn && btn.name) {
                 formData.set(btn.name, btn.value);
             }
+            
+            // Include antiforgery token
+            var antiforgeryToken = form.querySelector('input[name="__RequestVerificationToken"]');
+            if (antiforgeryToken) {
+                formData.set('__RequestVerificationToken', antiforgeryToken.value);
+            }
+            
             fetch(form.action || window.location.pathname, {
                 method: 'POST',
                 body: formData
