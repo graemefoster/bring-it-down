@@ -10,8 +10,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to the default policy.
+{   
     options.FallbackPolicy = options.DefaultPolicy;
 });
 
@@ -43,6 +42,19 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//write some simple middleware using app.Use
+app.Use(async (_, next) =>
+{
+    // Log the request path
+    try
+    {
+        await next.Invoke();
+    }
+    catch (OutOfMemoryException)
+    {
+        Environment.FailFast("Out of memory - custom fail");
+    }
+});
 
 app.UseForwardedHeaders();
 

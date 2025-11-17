@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder1", "Solution
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BringItDownUITests", "BringItDownUITests\BringItDownUITests.csproj", "{F8545515-CED6-4707-BE48-787D9E376269}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +19,9 @@ Global
 		{8C99B1C4-A838-42D6-965A-AA3EB12518EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C99B1C4-A838-42D6-965A-AA3EB12518EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C99B1C4-A838-42D6-965A-AA3EB12518EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8545515-CED6-4707-BE48-787D9E376269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8545515-CED6-4707-BE48-787D9E376269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8545515-CED6-4707-BE48-787D9E376269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8545515-CED6-4707-BE48-787D9E376269}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

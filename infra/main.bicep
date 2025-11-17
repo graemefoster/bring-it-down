@@ -1,7 +1,7 @@
 param location string = resourceGroup().location
 param containerAppName string = 'bringitdown-app'
 param containerAppEnvName string = 'bringitdown-env'
-param containerImage string = 'graemefoster/bringitdown:0.5'
+param containerImage string = 'graemefoster/bringitdown:0.6'
 param containerPort int = 8080
 param logAnalyticsWorkspaceName string = 'bringitdown-logs'
 param appInsightsName string = 'bringitdown-appi'
@@ -36,6 +36,11 @@ resource containerApp 'Microsoft.App/containerApps@2025-02-02-preview' = {
           value: appInsights.properties.ConnectionString
         }
       ]
+      runtime: {
+        dotnet: {
+          autoConfigureDataProtection: true
+        }
+      }
     }
     template: {
       containers: [
@@ -55,7 +60,7 @@ resource containerApp 'Microsoft.App/containerApps@2025-02-02-preview' = {
         }
       ]
       scale: {
-        minReplicas: 0
+        minReplicas: 5
         maxReplicas: 10
       }
     }

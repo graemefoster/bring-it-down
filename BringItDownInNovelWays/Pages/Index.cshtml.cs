@@ -86,6 +86,11 @@ public class IndexModel : PageModel
             }
             _logger.LogInformation("[CPU RAMP] Max CPU burn complete");
         }
+
+        if (Request.Form["logicError"] == "1")
+        {
+            throw new InvalidOperationException("Sorry but an internal server error occurred. Please try again later.");
+        }
         return Page();
     }
 }
